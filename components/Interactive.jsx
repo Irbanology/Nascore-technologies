@@ -43,7 +43,7 @@ export function ContactForm() {
   async function onSubmit(e) {
     e.preventDefault();
     const form = e.currentTarget;
-    const endpoint = process.env.NEXT_PUBLIC_GOOGLE_SHEET_URL;
+    const endpoint = process.env.GOOGLE_SHEET_URL;
 
     if (!endpoint) {
       setStatus("error");

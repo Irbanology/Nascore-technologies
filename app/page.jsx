@@ -1,4 +1,4 @@
-import { Faq, Solutions, ContactForm } from "@/components/Interactive";
+import { Faq, Solutions, ContactForm } from "../components/Interactive";
 
 const services = [
   { n: "01", h: "AI Automation & Intelligent Workflows", d: "Reduce repetitive work and connect your business processes with intelligent automation built around the way your team actually works.", l: ["AI Workflow Automation","AI Agents & Assistants","Lead Qualification Automation","CRM Automation","Customer Support Automation","n8n Integrations","API Integrations","Business Process Automation","Custom AI Solutions"], c: "Explore AI Automation →" },

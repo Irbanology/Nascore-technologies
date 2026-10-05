@@ -37,21 +37,49 @@ export function Solutions({ items }) {
 }
 
 export function ContactForm() {
-  const [sent, setSent] = useState(false);
-  function onSubmit(e) {
+  const [status, setStatus] = useState("idle");
+  const [message, setMessage] = useState("No sales pressure. Tell us about the problem first.");
+
+  async function onSubmit(e) {
     e.preventDefault();
-    const d = Object.fromEntries(new FormData(e.currentTarget));
-    const body = Object.entries(d).map(([k, v]) => `${k}: ${v}`).join("\n");
-    // TODO: replace with an API route / n8n webhook / GoHighLevel form endpoint
-    window.location.href = `mailto:hello@nascoretech.com?subject=${encodeURIComponent("New project enquiry")}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    const form = e.currentTarget;
+    const endpoint = process.env.NEXT_PUBLIC_GOOGLE_SHEET_URL;
+
+    if (!endpoint) {
+      setStatus("error");
+      setMessage("Form endpoint is not configured yet. Add NEXT_PUBLIC_GOOGLE_SHEET_URL to your .env.local file.");
+      return;
+    }
+
+    setStatus("sending");
+    setMessage("Sending your project details…");
+
+    const data = new FormData(form);
+    data.append("submittedAt", new Date().toISOString());
+    data.append("source", window.location.href);
+
+    try {
+      await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        body: new URLSearchParams([...data.entries()]),
+      });
+      form.reset();
+      setStatus("success");
+      setMessage("Thanks — your project details have been submitted successfully. We'll get back to you soon.");
+    } catch (error) {
+      console.error("Form submission failed:", error);
+      setStatus("error");
+      setMessage("We couldn't submit the form. Please try again or email hello@nascoretech.com.");
+    }
   }
+
   return (
     <form className="form" onSubmit={onSubmit}>
-      <label>Name *<input name="name" required /></label>
-      <label>Business email *<input name="email" type="email" required /></label>
-      <label>Company<input name="company" /></label>
-      <label>Website<input name="website" type="url" placeholder="https://" /></label>
+      <label>Name *<input name="name" autoComplete="name" required /></label>
+      <label>Business email *<input name="email" type="email" autoComplete="email" required /></label>
+      <label>Company<input name="company" autoComplete="organization" /></label>
+      <label>Website<input name="website" type="url" inputMode="url" placeholder="https://" /></label>
       <label className="full">What do you need help with? *
         <select name="service" required defaultValue="">
           <option value="" disabled>Select</option>
@@ -65,8 +93,10 @@ export function ContactForm() {
           {["Under $1,000","$1,000 – $5,000","$5,000 – $15,000","$15,000+","Not sure yet"].map(o => <option key={o}>{o}</option>)}
         </select>
       </label>
-      <button className="btn primary full" type="submit">Start the conversation →</button>
-      <small className="full">{sent ? "Your email app should open with the details. Thank you." : "No sales pressure. Tell us about the problem first."}</small>
+      <button className="btn primary full" type="submit" disabled={status === "sending"}>
+        {status === "sending" ? "Sending…" : "Start the conversation →"}
+      </button>
+      <small className={`full form-status ${status}`} aria-live="polite">{message}</small>
     </form>
   );
 }

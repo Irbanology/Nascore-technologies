@@ -40,40 +40,59 @@ export function ContactForm() {
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("No sales pressure. Tell us about the problem first.");
 
-  async function onSubmit(e) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const endpoint = process.env.GOOGLE_SHEET_URL;
+async function onSubmit(e) {
+  e.preventDefault();
 
-    if (!endpoint) {
-      setStatus("error");
-      setMessage("Form endpoint is not configured yet.");
-      return;
+  const form = e.currentTarget;
+
+  setStatus("sending");
+  setMessage("Sending your project details…");
+
+  const formData = new FormData(form);
+
+  const data = {
+    name: formData.get("name") || "",
+    email: formData.get("email") || "",
+    company: formData.get("company") || "",
+    website: formData.get("website") || "",
+    service: formData.get("service") || "",
+    project: formData.get("project") || "",
+    budget: formData.get("budget") || "",
+    submittedAt: new Date().toISOString(),
+    source: window.location.href,
+  };
+
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Submission failed");
     }
 
-    setStatus("sending");
-    setMessage("Sending your project details…");
+    form.reset();
 
-    const data = new FormData(form);
-    data.append("submittedAt", new Date().toISOString());
-    data.append("source", window.location.href);
+    setStatus("success");
+    setMessage(
+      "Thanks — your project details have been submitted successfully. We'll get back to you soon."
+    );
 
-    try {
-      await fetch(endpoint, {
-        method: "POST",
-        mode: "no-cors",
-        body: new URLSearchParams([...data.entries()]),
-      });
-      form.reset();
-      setStatus("success");
-      setMessage("Thanks — your project details have been submitted successfully. We'll get back to you soon.");
-    } catch (error) {
-      console.error("Form submission failed:", error);
-      setStatus("error");
-      setMessage("We couldn't submit the form. Please try again or email hello@nascoretech.com.");
-    }
+  } catch (error) {
+    console.error(error);
+
+    setStatus("error");
+    setMessage(
+      "We couldn't submit the form. Please try again or email hello@nascoretech.com."
+    );
   }
-
+}
   return (
     <form className="form" onSubmit={onSubmit}>
       <label>Name *<input name="name" autoComplete="name" required /></label>

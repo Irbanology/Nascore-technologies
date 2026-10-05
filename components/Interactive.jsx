@@ -47,7 +47,7 @@ export function ContactForm() {
 
     if (!endpoint) {
       setStatus("error");
-      setMessage("Form endpoint is not configured yet. Add NEXT_PUBLIC_GOOGLE_SHEET_URL to your .env.local file.");
+      setMessage("Form endpoint is not configured yet.");
       return;
     }
 

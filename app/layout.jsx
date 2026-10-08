@@ -1,5 +1,6 @@
 import { Manrope, DM_Sans } from "next/font/google";
 import "./globals.css";
+import WhatsAppButton from "../components/WhatsAppButton";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-head", display: "swap" });
 const dm = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -9,7 +10,7 @@ export const metadata = {
   title: "AI Automation, SEO, Web Development & AWS Cloud | NasCore Technologies",
   description:
     "NasCore Technologies provides AI automation, MERN and Next.js development, SEO, and AWS cloud solutions to help businesses automate, grow and scale.",
-  keywords: ["AI automation agency","AI automation services","SEO services","SEO agency","MERN stack development","Next.js development","web development company","AWS cloud services","AWS consulting","workflow automation","business process automation","custom software development"],
+  keywords: ["AI automation agency", "AI automation services", "SEO services", "SEO agency", "MERN stack development", "Next.js development", "web development company", "AWS cloud services", "AWS consulting", "workflow automation", "business process automation", "custom software development"],
   alternates: { canonical: "https://nascoretech.com" },
   openGraph: {
     title: "NasCore Technologies | AI Automation, SEO, Development & Cloud",
@@ -21,7 +22,7 @@ export const metadata = {
     title: "NasCore Technologies | Build. Automate. Optimize. Scale.",
     description: "AI automation, SEO, modern web development and AWS cloud solutions.",
   },
-    icons: {
+  icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
@@ -31,7 +32,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${manrope.variable} ${dm.variable}`}>
-      <body>{children}</body>
+      <body>{children}
+        <WhatsAppButton />
+      </body>
     </html>
   );
 }

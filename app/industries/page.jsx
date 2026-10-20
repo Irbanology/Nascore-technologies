@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-// import Footer from "../../components/Footer";
-// import Header from "../../../components/Header";
+// import { Header } from "../../app/c";
+// import { Footer } from "./Footer";
 
 
 export const metadata = {
@@ -43,7 +43,7 @@ const steps = [
 export default function IndustriesPage() {
     return (
         <>
-            <Header/>
+            {/* <Header/> */}
             <main className="min-h-screen overflow-hidden bg-[#FBF7F4] text-[#303438] selection:bg-[#9A684D]/25">
                 {/* Hero */}
                 <section className="relative border-b border-[#303438]/10">

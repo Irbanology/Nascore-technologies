@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Check, Cloud, Code2, Search, Sparkles } from "lucide-react";
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
-import { ContactForm, Faq, Solutions } from "../components/Interactive";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { ContactForm, Faq, Solutions } from "./components/Interactive";
 import { services } from "../data/services";
 
 const solutions = [

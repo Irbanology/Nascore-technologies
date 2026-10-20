@@ -1,4 +1,4 @@
-import ServicePage from "../../../components/ServicePage";
+import ServicePage from "../../components/ServicePage";
 
 export const metadata = {
   "title": "Custom Web Development Services | NasCore Technologies",

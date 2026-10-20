@@ -1,6 +1,6 @@
 import { Manrope, DM_Sans } from "next/font/google";
 import "./globals.css";
-import WhatsAppButton from "../components/WhatsAppButton";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-head", display: "swap" });
 const dm = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap" });

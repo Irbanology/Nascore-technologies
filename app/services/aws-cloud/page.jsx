@@ -1,4 +1,4 @@
-import ServicePage from "../../../components/ServicePage";
+import ServicePage from "../../components/ServicePage";
 
 export const metadata = {
   "title": "AWS Cloud Consulting and Deployment Services | NasCore",
